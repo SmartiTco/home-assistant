@@ -117,6 +117,7 @@ class RfxtrxSensor(Entity):
         """Initialize the sensor."""
         self.event = event
         self._name = name
+        self._unique_id = slugify(event.device.id_string.lower())
         self.should_fire_event = should_fire_event
         self.data_type = data_type
         self._unit_of_measurement = DATA_TYPES.get(data_type, '')
@@ -131,6 +132,11 @@ class RfxtrxSensor(Entity):
         if not self.event:
             return None
         return self.event.values.get(self.data_type)
+
+    @property
+    def unique_id(self) -> str:
+        """Return a unique ID."""
+        return self._unique_id
 
     @property
     def name(self):
